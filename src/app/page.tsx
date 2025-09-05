@@ -7,7 +7,7 @@ import { useRAGStore } from "@/lib/store";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"upload" | "chat">("upload");
-  
+
   // Zustand 스토어에서 문서 수 가져오기
   const documentCount = useRAGStore((state) => state.documents.length);
 
