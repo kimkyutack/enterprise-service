@@ -1,4 +1,3 @@
-// 무료 로컬 임베딩 모델
 import { pipeline } from "@xenova/transformers";
 
 let embeddingPipeline: any = null;

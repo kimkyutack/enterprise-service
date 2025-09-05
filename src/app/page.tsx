@@ -30,7 +30,7 @@ export default function Home() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <h1 className="text-2xl font-bold text-gray-900">
-                🚀 무료 RAG 엔터프라이즈 서비스
+                🚀 RAG 엔터프라이즈 서비스
               </h1>
             </div>
             <div className="flex items-center space-x-4">
@@ -69,27 +69,6 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Features */}
-        <div className="mb-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-blue-900 mb-3">
-            ✨ 무료 RAG 서비스 특징
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-blue-800">
-            <div className="flex items-center">
-              <span className="mr-2">🆓</span>
-              <span>완전 무료 - API 키 불필요</span>
-            </div>
-            <div className="flex items-center">
-              <span className="mr-2">⚡</span>
-              <span>로컬 AI 모델 사용</span>
-            </div>
-            <div className="flex items-center">
-              <span className="mr-2">📚</span>
-              <span>PDF, DOCX, TXT 지원</span>
-            </div>
-          </div>
-        </div>
-
         {activeTab === "upload" ? <DocumentUpload /> : <ChatInterface />}
       </main>
 
@@ -97,7 +76,6 @@ export default function Home() {
       <footer className="bg-white border-t mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="text-center text-sm text-gray-500">
-            <p>무료 RAG 엔터프라이즈 서비스 - 테스트용</p>
             <p className="mt-1">
               Next.js + TypeScript + Tailwind CSS + @xenova/transformers
             </p>

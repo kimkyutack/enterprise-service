@@ -19,10 +19,8 @@ export interface RAGResponse {
 export class RAGEngine {
   static async generateAnswer(query: string): Promise<RAGResponse> {
     try {
-      // 1. 쿼리 임베딩 생성
       const queryEmbedding = await getEmbedding(query);
 
-      // 2. 유사한 문서 검색
       const similarDocs = vectorStore.searchSimilar(queryEmbedding, 5);
 
       if (similarDocs.length === 0) {
@@ -33,12 +31,10 @@ export class RAGEngine {
         };
       }
 
-      // 3. 컨텍스트 구성
       const context = similarDocs
         .map((doc) => `문서: ${doc.metadata.filename}\n내용: ${doc.content}`)
         .join("\n\n");
 
-      // 4. 간단한 답변 생성 (무료 버전)
       const answer = this.generateSimpleAnswer(query, similarDocs);
 
       return {
@@ -48,7 +44,7 @@ export class RAGEngine {
           metadata: {
             filename: doc.metadata.filename,
             type: doc.metadata.type,
-            similarity: doc.similarity,
+            similarity: doc.similarity || 0,
           },
         })),
         query,
@@ -64,10 +60,8 @@ export class RAGEngine {
   }
 
   private static generateSimpleAnswer(query: string, sources: any[]): string {
-    // 간단한 규칙 기반 답변 생성
     const queryLower = query.toLowerCase();
 
-    // 인사말 처리
     if (
       queryLower.includes("안녕") ||
       queryLower.includes("hello") ||
@@ -78,7 +72,6 @@ export class RAGEngine {
       }`;
     }
 
-    // 질문 처리
     if (
       queryLower.includes("?") ||
       queryLower.includes("무엇") ||
@@ -87,7 +80,6 @@ export class RAGEngine {
       return `질문에 대한 답변을 찾았습니다:\n\n${sources[0]?.content || ""}`;
     }
 
-    // 기본 답변
     return `"${query}"에 대한 관련 문서를 찾았습니다:\n\n${
       sources[0]?.content || ""
     }`;
@@ -98,12 +90,10 @@ export class RAGEngine {
     metadata: { filename: string; type: string; uploadedAt: Date }
   ): Promise<void> {
     try {
-      // 문서를 청크로 분할
       const chunks = content
         .split("\n\n")
         .filter((chunk) => chunk.trim().length > 0);
 
-      // 각 청크를 벡터화하여 저장
       for (const chunk of chunks) {
         const embedding = await getEmbedding(chunk);
         vectorStore.addDocument(chunk, embedding, metadata);
