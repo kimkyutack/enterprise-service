@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useRAGStore } from "@/lib/store";
 
 interface UploadResult {
   success: boolean;
@@ -16,6 +17,9 @@ export default function DocumentUpload() {
   const [uploadResult, setUploadResult] = useState<UploadResult | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Zustand 스토어에서 문서 수 가져오기
+  const documentCount = useRAGStore((state) => state.documents.length);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -227,7 +231,7 @@ export default function DocumentUpload() {
                       {uploadResult.size && formatFileSize(uploadResult.size)}
                     </p>
                     <p>
-                      <strong>총 문서 수:</strong> {uploadResult.documentCount}
+                      <strong>총 문서 수:</strong> {documentCount}
                       개
                     </p>
                   </div>

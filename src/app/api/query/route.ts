@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { RAGEngine } from "@/lib/rag-engine";
+import { generateAnswer } from "@/lib/rag-engine";
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     }
 
     // RAG 엔진을 사용하여 답변 생성
-    const response = await RAGEngine.generateAnswer(query);
+    const response = await generateAnswer(query);
 
     return NextResponse.json(response);
   } catch (error) {

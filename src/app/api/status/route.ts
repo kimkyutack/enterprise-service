@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { RAGEngine } from "@/lib/rag-engine";
+import { getDocumentCount } from "@/lib/rag-engine";
 
 export async function GET() {
   try {
-    const documentCount = RAGEngine.getDocumentCount();
+    const documentCount = getDocumentCount();
 
     return NextResponse.json({
       status: "ok",

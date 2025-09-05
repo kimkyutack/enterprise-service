@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { DocumentProcessor } from "@/lib/document-processor";
-import { RAGEngine } from "@/lib/rag-engine";
+import { addDocument, getDocumentCount } from "@/lib/rag-engine";
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,14 +39,14 @@ export async function POST(request: NextRequest) {
     }
 
     // RAG 엔진에 문서 추가
-    await RAGEngine.addDocument(processedDoc.content, processedDoc.metadata);
+    await addDocument(processedDoc.content, processedDoc.metadata);
 
     return NextResponse.json({
       message: "문서가 성공적으로 업로드되었습니다.",
       filename: processedDoc.metadata.filename,
       type: processedDoc.metadata.type,
       size: processedDoc.metadata.size,
-      documentCount: RAGEngine.getDocumentCount(),
+      documentCount: getDocumentCount(),
     });
   } catch (error) {
     console.error("문서 업로드 오류:", error);

@@ -3,24 +3,13 @@
 import { useState, useEffect } from "react";
 import DocumentUpload from "@/components/DocumentUpload";
 import ChatInterface from "@/components/ChatInterface";
+import { useRAGStore } from "@/lib/store";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"upload" | "chat">("upload");
-  const [documentCount, setDocumentCount] = useState(0);
-
-  useEffect(() => {
-    checkDocumentCount();
-  }, []);
-
-  const checkDocumentCount = async () => {
-    try {
-      const response = await fetch("/api/status");
-      const data = await response.json();
-      setDocumentCount(data.documentCount || 0);
-    } catch (error) {
-      console.error("문서 수 확인 실패:", error);
-    }
-  };
+  
+  // Zustand 스토어에서 문서 수 가져오기
+  const documentCount = useRAGStore((state) => state.documents.length);
 
   return (
     <div className="min-h-screen bg-gray-50">

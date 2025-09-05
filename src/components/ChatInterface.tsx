@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRAGStore } from "@/lib/store";
 
 interface Message {
   id: string;
@@ -21,22 +22,9 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [documentCount, setDocumentCount] = useState(0);
-
-  useEffect(() => {
-    // 문서 수 확인
-    checkDocumentCount();
-  }, []);
-
-  const checkDocumentCount = async () => {
-    try {
-      const response = await fetch("/api/status");
-      const data = await response.json();
-      setDocumentCount(data.documentCount || 0);
-    } catch (error) {
-      console.error("문서 수 확인 실패:", error);
-    }
-  };
+  
+  // Zustand 스토어에서 문서 수 가져오기
+  const documentCount = useRAGStore((state) => state.documents.length);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
